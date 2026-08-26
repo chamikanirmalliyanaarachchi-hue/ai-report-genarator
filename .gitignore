@@ -1,0 +1,33 @@
+# dependencies
+node_modules/
+
+# next.js build output
+.next/
+out/
+build/
+dist/
+
+# vercel / deployment caches
+.vercel/
+.turbo/
+
+# env secrets — NEVER commit real keys
+.env
+.env.*
+!.env.example
+.env*.local
+
+# misc
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+coverage/
+.idea/
+.vscode/
+
+# local upload artifacts (user-uploaded files)
+uploads/
+*.log

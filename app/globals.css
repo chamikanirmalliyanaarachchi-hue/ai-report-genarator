@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Light mode is the default; dark mode is activated via the `dark` class on <html> */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-slate-50 text-zinc-700 antialiased;
+    color-scheme: light;
+  }
+
+  .dark body {
+    @apply bg-zinc-950 text-zinc-300;
+    color-scheme: dark;
+  }
+
+  /* Themed scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-zinc-300;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    @apply bg-zinc-700;
+  }
+}
+
+@layer components {
+  /* Clean, matte, frosted cards — same refined look in both themes */
+  .card {
+    @apply rounded-2xl border border-zinc-200 bg-white/80 shadow-sm backdrop-blur-md transition-all duration-300;
+  }
+  .dark .card {
+    @apply border-zinc-800 bg-zinc-900/80 shadow-none;
+  }
+
+  /* Headings & body text tokens */
+  .text-strong {
+    @apply text-zinc-900;
+  }
+  .dark .text-strong {
+    @apply text-white;
+  }
+
+  .text-muted {
+    @apply text-zinc-500;
+  }
+  .dark .text-muted {
+    @apply text-zinc-400;
+  }
+}
+
+/* Utility to hide content visually but keep it accessible */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Animated brand logo — gentle rotation + scale pulse + soft glow */
+@keyframes logo-sparkle {
+  0%,
+  100% {
+    transform: rotate(-8deg) scale(1);
+    filter: drop-shadow(0 0 3px rgba(249, 115, 22, 0.45));
+  }
+  50% {
+    transform: rotate(8deg) scale(1.15);
+    filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.9));
+  }
+}
+
+.logo-sparkle {
+  animation: logo-sparkle 2.6s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform, filter;
+}

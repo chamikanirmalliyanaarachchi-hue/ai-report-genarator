@@ -1,0 +1,38 @@
+rules_version = '2';
+
+// AI Report Analyzer — Firestore rules.
+// Every document in projects / documents / chatSessions is owned by the user
+// who created it (stored in the `userId` field). Users may only read/write
+// their own data. Deploy with: firebase deploy --only firestore:rules
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function ownerOf(doc) {
+      return signedIn() && request.auth.uid == doc.userId;
+    }
+
+    match /projects/{id} {
+      allow read, write: if ownerOf(resource.data);
+      allow create: if signedIn() && request.auth.uid == request.resource.data.userId;
+    }
+
+    match /documents/{id} {
+      allow read, write: if ownerOf(resource.data);
+      allow create: if signedIn() && request.auth.uid == request.resource.data.userId;
+    }
+
+    match /chatSessions/{id} {
+      allow read, write: if ownerOf(resource.data);
+      allow create: if signedIn() && request.auth.uid == request.resource.data.userId;
+    }
+
+    match /memories/{id} {
+      allow read, write: if ownerOf(resource.data);
+      allow create: if signedIn() && request.auth.uid == request.resource.data.userId;
+    }
+  }
+}
