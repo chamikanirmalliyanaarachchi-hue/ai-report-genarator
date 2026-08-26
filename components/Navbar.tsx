@@ -11,7 +11,7 @@ import { useModal } from "./ModalProvider";
 // Navigation links — single source of truth used for both desktop & mobile
 const NAV_LINKS = [
   { label: "How it Works", href: "#how-it-works" },
-  { label: "Testimonials", href: "#testimonials" },
+  { label: "Use Cases", href: "#use-cases" },
   { label: "Tools", href: "#tools" },
   { label: "FAQ", href: "#faq" },
 ];

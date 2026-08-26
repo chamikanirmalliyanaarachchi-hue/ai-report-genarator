@@ -71,6 +71,30 @@
   border-width: 0;
 }
 
+/* Visible, consistent focus ring for keyboard users on every interactive element */
+@layer base {
+  :where(a, button, input, textarea, select, [tabindex], [role="button"]):focus-visible {
+    outline: 2px solid theme("colors.orange.500");
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+  }
+}
+
+/* Respect users who prefer reduced motion: disable decorative animation */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .logo-sparkle {
+    animation: none !important;
+  }
+}
+
 /* Animated brand logo — gentle rotation + scale pulse + soft glow */
 @keyframes logo-sparkle {
   0%,

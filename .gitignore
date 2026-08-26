@@ -31,3 +31,4 @@ coverage/
 # local upload artifacts (user-uploaded files)
 uploads/
 *.log
+.aider*

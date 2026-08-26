@@ -1,125 +1,102 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Star } from "lucide-react";
+import {
+  LineChart,
+  DollarSign,
+  ShoppingCart,
+  FlaskConical,
+  Megaphone,
+  GraduationCap,
+  type LucideIcon,
+} from "lucide-react";
 import SectionHeading from "./SectionHeading";
 
-// Avatar initials + color so we avoid external image dependencies
-const TESTIMONIALS = [
+/**
+ * Example use cases — shown instead of customer testimonials so the page stays
+ * honest. These illustrate the kinds of work the tool is built for; they are not
+ * claims about specific customers.
+ */
+const USE_CASES: {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}[] = [
   {
-    name: "Sarah Mitchell",
-    role: "Head of Finance, Northwind",
-    initials: "SM",
-    color: "from-orange-500 to-orange-600",
-    quote:
-      "We used to spend two full days building the monthly board deck. With AI Report Generator it's done in minutes, and the charts look better than anything we produced manually.",
-    rating: 5,
+    icon: LineChart,
+    title: "Business Analytics",
+    description:
+      "Turn operational spreadsheets into clear performance narratives for leadership reviews.",
   },
   {
-    name: "David Okafor",
-    role: "Startup Founder",
-    initials: "DO",
-    color: "from-orange-500 to-amber-500",
-    quote:
-      "I uploaded a messy CSV of our Q2 metrics and got a clean, investor-ready report before my coffee got cold. Genuinely saved me 10+ hours.",
-    rating: 5,
+    icon: ShoppingCart,
+    title: "Sales Reports",
+    description:
+      "Summarize pipelines, win rates and quotas into stakeholder-ready decks in minutes.",
   },
   {
-    name: "Priya Sharma",
-    role: "Market Analyst",
-    initials: "PS",
-    color: "from-amber-500 to-orange-500",
-    quote:
-      "The economy analysis feature is uncanny. It spotted a seasonal trend our team missed and the export to Word made sharing effortless.",
-    rating: 5,
+    icon: DollarSign,
+    title: "Financial Analysis",
+    description:
+      "Parse statements and forecasts to surface trends, risks and margins automatically.",
   },
   {
-    name: "Liam Chen",
-    role: "Operations Lead",
-    initials: "LC",
-    color: "from-orange-500 to-orange-600",
-    quote:
-      "Our ops reports used to be a nightmare of copy-paste. Now it's drag, drop, done. The insights are actually actionable, not just pretty graphs.",
-    rating: 4,
+    icon: FlaskConical,
+    title: "Research Data",
+    description:
+      "Convert experiment results and survey data into structured, citable summaries.",
   },
   {
-    name: "Ana Ribeiro",
-    role: "Consultant",
-    initials: "AR",
-    color: "from-orange-500 to-amber-500",
-    quote:
-      "I bill clients for speed and quality. This tool delivers both. My deliverables look like they came from a premium analytics agency.",
-    rating: 5,
+    icon: Megaphone,
+    title: "Marketing Reports",
+    description:
+      "Consolidate campaign metrics into insights on what to scale and what to cut.",
   },
   {
-    name: "Marcus Webb",
-    role: "CFO, BrightLog",
-    initials: "MW",
-    color: "from-amber-500 to-orange-500",
-    quote:
-      "Security was my main concern with client data, but the encryption and no-retention policy gave our compliance team peace of mind.",
-    rating: 5,
+    icon: GraduationCap,
+    title: "Academic Projects",
+    description:
+      "Build literature reviews and data write-ups that are clear, formatted and on-time.",
   },
 ];
-
-function Stars({ rating }: { rating: number }) {
-  return (
-    <div className="flex gap-0.5">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Star
-          key={i}
-          className={`h-4 w-4 ${
-            i < rating
-              ? "fill-orange-500 text-orange-500"
-              : "fill-zinc-200 text-zinc-200 dark:fill-white/10 dark:text-white/10"
-          }`}
-        />
-      ))}
-    </div>
-  );
-}
 
 export default function Testimonials() {
   return (
     <section
-      id="testimonials"
+      id="use-cases"
       className="scroll-mt-24 px-4 py-28 sm:px-6 lg:px-8 lg:py-32"
     >
       <div className="mx-auto max-w-7xl">
         <SectionHeading
-          eyebrow="Testimonials"
-          title="Loved by data-driven teams"
-          subtitle="See how professionals are saving hours every week with AI-generated reports."
+          eyebrow="Example Use Cases"
+          title="Built for teams that need faster reporting"
+          subtitle="A practical AI assistant for turning raw data into clear, shareable reports across domains."
         />
 
         <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {TESTIMONIALS.map((t, i) => (
+          {USE_CASES.map(({ icon: Icon, title, description }, i) => (
             <motion.figure
-              key={t.name}
+              key={title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: (i % 3) * 0.12 }}
               className="card flex flex-col gap-4 p-6 transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-orange-500/40 hover:shadow-xl hover:shadow-orange-500/10"
             >
-              <Stars rating={t.rating} />
-              <blockquote className="flex-1 text-sm leading-relaxed text-muted">
-                “{t.quote}”
-              </blockquote>
-              <figcaption className="flex items-center gap-3">
-                <span
-                  className={`grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br ${t.color} text-sm font-semibold text-white`}
-                >
-                  {t.initials}
-                </span>
-                <div>
-                  <p className="text-sm font-semibold text-strong">{t.name}</p>
-                  <p className="text-xs text-muted">{t.role}</p>
-                </div>
-              </figcaption>
+              <span className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 shadow-md shadow-orange-500/30">
+                <Icon className="h-6 w-6 text-white" />
+              </span>
+              <h3 className="text-lg font-semibold text-strong">{title}</h3>
+              <p className="flex-1 text-sm leading-relaxed text-muted">
+                {description}
+              </p>
             </motion.figure>
           ))}
         </div>
+
+        <p className="mt-8 text-center text-xs text-muted">
+          Illustrative examples of how the tool can be used — not endorsements.
+        </p>
       </div>
     </section>
   );
