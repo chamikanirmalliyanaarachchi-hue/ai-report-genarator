@@ -1423,7 +1423,7 @@ export default function Dashboard() {
               {user?.photoURL && !imgError ? (
                 <img
                   src={user.photoURL}
-                  alt={user.displayName ?? "User"}
+                  alt={user.displayName ?? "User profile"}
                   onError={() => setImgError(true)}
                   className="h-9 w-9 shrink-0 rounded-full object-cover ring-1 ring-slate-200 dark:ring-zinc-700"
                 />
@@ -1461,7 +1461,7 @@ export default function Dashboard() {
                     </div>
                     <button
                       onClick={goToPricing}
-                      className="flex items-center gap-1 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-transform hover:scale-[1.03]"
+                      className="flex items-center gap-1 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-transform hover:scale-[1.03] focus:outline-none focus:ring-2 focus:ring-orange-500/50"
                     >
                       <Sparkles className="h-3.5 w-3.5" />
                       Upgrade
@@ -1469,7 +1469,7 @@ export default function Dashboard() {
                   </div>
                   <button
                     onClick={goToPricing}
-                    className="mt-2 flex w-full items-center justify-center gap-1 text-[11px] font-medium text-orange-600 hover:underline dark:text-orange-400"
+                    className="mt-2 flex w-full items-center justify-center gap-1 text-[11px] font-medium text-orange-600 hover:underline dark:text-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
                   >
                     View pricing &amp; plans
                     <ArrowUpRight className="h-3 w-3" />
@@ -1577,7 +1577,7 @@ export default function Dashboard() {
                       type="button"
                       aria-label="Dismiss error"
                       onClick={() => setError(null)}
-                      className="grid h-6 w-6 shrink-0 place-items-center rounded-md text-red-500 transition-colors hover:bg-red-500/10 dark:text-red-300"
+                      className="grid h-6 w-6 shrink-0 place-items-center rounded-md text-red-500 transition-colors hover:bg-red-500/10 dark:text-red-300 focus:outline-none focus:ring-2 focus:ring-red-500/50"
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -1609,7 +1609,7 @@ export default function Dashboard() {
                             <button
                               key={tab.id}
                               onClick={() => setActiveTab(tab.id)}
-                              className={`relative flex items-center gap-2 rounded-t-lg px-4 py-3 text-sm font-medium transition-colors ${
+                              className={`relative flex items-center gap-2 rounded-t-lg px-4 py-3 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/50 ${
                                 active
                                   ? "text-orange-500"
                                   : "text-slate-500 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-zinc-200"
@@ -1681,7 +1681,7 @@ export default function Dashboard() {
                             type="button"
                             onClick={() => removeAttachment(a.id)}
                             aria-label={`Remove ${a.name}`}
-                            className="grid h-4 w-4 place-items-center rounded-full transition-colors hover:bg-orange-500/20"
+                            className="grid h-4 w-4 place-items-center rounded-full transition-colors hover:bg-orange-500/20 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
                           >
                             <X className="h-3 w-3" />
                           </button>
@@ -1716,6 +1716,7 @@ export default function Dashboard() {
                         if (e.key === "Enter") handleSend();
                       }}
                       placeholder="Ask me anything, assign a task, or drop files to analyze…"
+                      aria-label="Workspace task prompt input"
                       className="w-full bg-transparent py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 dark:text-white dark:placeholder:text-zinc-500"
                     />
                     <button

@@ -94,7 +94,7 @@ function LiveReportDemo() {
           <button
             type="button"
             onClick={resetDemo}
-            className="flex items-center gap-1.5 rounded-full border border-zinc-200 bg-zinc-100 px-3 py-1.5 text-xs font-medium text-strong transition-colors hover:bg-zinc-200 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-700"
+            className="flex items-center gap-1.5 rounded-full border border-zinc-200 bg-zinc-100 px-3 py-1.5 text-xs font-medium text-strong transition-colors hover:bg-zinc-200 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
           >
             <RotateCcw className="h-3 w-3" /> Reset Demo
           </button>
@@ -224,6 +224,7 @@ export default function Hero() {
               if (e.key === "Enter") handleGenerate();
             }}
             type="text"
+            aria-label="Report prompt topic"
             placeholder="Ask AI to generate a report on… (e.g. Q3 revenue analysis)"
             className="w-full bg-transparent py-2.5 text-sm text-strong placeholder:text-zinc-400 focus:outline-none dark:text-white dark:placeholder:text-zinc-500"
           />

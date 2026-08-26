@@ -107,7 +107,7 @@ export default function FileUploadBox({
               type="button"
               onClick={reset}
               aria-label="Remove file"
-              className="rounded-full p-1 text-muted transition-colors hover:bg-zinc-200 hover:text-strong dark:hover:bg-zinc-700"
+              className="rounded-full p-1 text-muted transition-colors hover:bg-zinc-200 hover:text-strong dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
             >
               <X className="h-4 w-4" />
             </button>
