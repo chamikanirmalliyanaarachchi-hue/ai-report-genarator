@@ -4,12 +4,6 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, Sheet, FileText, FileUser } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 
-/**
- * Companion tools shown as secondary, forward-looking cards.
- * The AI Report Generator is the primary product; these are presented as
- * upcoming additions and clearly marked "Coming soon" so we don't imply
- * functionality that isn't shipped yet.
- */
 const TOOLS = [
   {
     icon: Sheet,

@@ -12,11 +12,6 @@ import {
 } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 
-/**
- * Example use cases — shown instead of customer testimonials so the page stays
- * honest. These illustrate the kinds of work the tool is built for; they are not
- * claims about specific customers.
- */
 const USE_CASES: {
   icon: LucideIcon;
   title: string;

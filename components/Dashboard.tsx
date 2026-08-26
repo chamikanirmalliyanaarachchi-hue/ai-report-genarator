@@ -80,8 +80,6 @@ import {
 } from "@/lib/pendingUpload";
 import type { Project } from "@/lib/models";
 
-// Single source of truth for the product brand shown in the UI. Not fetched from
-// any external provider — flip this one constant to rebrand the whole app.
 const BRAND = "AI Reporter";
 
 type NavItem = { id: string; label: string; icon: typeof Plus };
@@ -145,7 +143,6 @@ function isAcceptedFile(name: string): boolean {
   return ACCEPTED_EXT.some((ext) => lower.endsWith(ext));
 }
 
-/** Detect whether the prompt is asking the AI to generate an image. */
 function isImageRequest(text: string): boolean {
   const t = text.toLowerCase();
   const hasImageNoun =
@@ -207,7 +204,6 @@ const TEMPLATES: Record<string, Card[]> = {
   ],
 };
 
-/* Pristine glass template card with a subtle 3D tilt + smooth hover */
 function TemplateCard({
   card,
   onSelect,
@@ -253,12 +249,10 @@ function TemplateCard({
         boxShadow: "0 24px 60px -24px rgba(249,115,22,0.40)",
       }}
       style={{ rotateX, rotateY, transformPerspective: 900 }}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-lg shadow-slate-200/50 backdrop-blur-2xl dark:border-zinc-800 dark:bg-zinc-900/80 dark:shadow-none"
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-lg shadow-slate-200/50 backdrop-blur-2xl dark:border-zinc-800 dark:bg-zinc-900/80 dark:shadow-none focus:outline-none focus:ring-2 focus:ring-orange-500/50"
     >
-      {/* sheen */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-white/[0.06]" />
 
-      {/* header row: icon badge (top-left) + category pill (top-right) */}
       <div className="relative flex items-start justify-between">
         <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-orange-500/25 to-orange-600/10 text-orange-500 shadow-[0_0_18px_-4px_rgba(249,115,22,0.6)]">
           <Sparkles className="h-5 w-5" />
@@ -268,7 +262,6 @@ function TemplateCard({
         </span>
       </div>
 
-      {/* text */}
       <h3 className="relative mt-4 text-base font-semibold text-slate-900 dark:text-white">
         {card.title}
       </h3>
@@ -279,7 +272,6 @@ function TemplateCard({
   );
 }
 
-/* A single generated report (prompt, file analysis, or image) rendered in the feed */
 type ReportEntry = {
   id: string;
   title: string;
@@ -292,8 +284,6 @@ type ReportEntry = {
   dataProfiles?: { name: string; profile: DataProfile }[];
 };
 
-// Extract a "Key Metrics" KPI table (Metric | Value | Signal) from the report
-// Markdown and surface it as visual metric cards in the live preview.
 function extractKpiCards(
   md: string
 ): { metric: string; value: string; signal: string }[] | null {
@@ -322,8 +312,6 @@ function extractKpiCards(
   return null;
 }
 
-// Compact, read-only panel showing the REAL computed statistics for the
-// uploaded tabular files — means, medians, distributions, and correlations.
 function DataProfilePanel({
   profiles,
 }: {
@@ -473,8 +461,6 @@ function ReportCard({
   const [showSteps, setShowSteps] = useState(false);
   const [artifact, setArtifact] = useState<{ pdf?: string; docx?: string }>({});
 
-  // Parse streamed text into structured execution artifacts (thinking / steps /
-  // narrative). Safe to run on every render — handles partial mid-stream input.
   const parsed = useMemo(
     () => parseReport(entry.content ?? ""),
     [entry.content]
@@ -511,7 +497,6 @@ function ReportCard({
     if (size) setArtifact((a) => ({ ...a, docx: formatBytes(size) }));
   };
 
-  // Live elapsed-time ticker while the task is running.
   useEffect(() => {
     if (!entry.generating) return;
     const start = entry.startedAt ?? Date.now();
@@ -559,14 +544,13 @@ function ReportCard({
           type="button"
           onClick={() => onDownload(entry)}
           disabled={entry.kind === "image" ? !entry.imageUrl : !entry.content}
-          className="flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-2 text-sm font-medium text-orange-600 transition-colors hover:bg-orange-500/20 disabled:cursor-not-allowed disabled:opacity-40 dark:text-orange-300"
+          className="flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-2 text-sm font-medium text-orange-600 transition-colors hover:bg-orange-500/20 disabled:cursor-not-allowed disabled:opacity-40 dark:text-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
         >
           <Download className="h-4 w-4" />
           {entry.kind === "image" ? "Download Image" : "Download PDF"}
         </button>
       </div>
 
-      {/* Processing status indicator */}
       {statusText && (
         <div className="mt-4 flex items-center gap-3">
           <span className="relative flex h-3 w-3">
@@ -585,7 +569,6 @@ function ReportCard({
         </div>
       )}
 
-      {/* Shimmer placeholders while working */}
       {entry.generating && !entry.content && entry.kind !== "image" && (
         <div className="mt-3 space-y-2">
           <div className="h-3 w-full animate-pulse rounded bg-slate-200/70 dark:bg-zinc-700/50" />
@@ -594,7 +577,6 @@ function ReportCard({
         </div>
       )}
 
-      {/* Image result (mounted immediately so onLoad can clear the loader) */}
       {entry.kind === "image" && entry.imageUrl && (
         <div className="relative mt-4 overflow-hidden rounded-xl border border-orange-500/20">
           <img
@@ -614,7 +596,6 @@ function ReportCard({
         </div>
       )}
 
-      {/* Text / artifact result */}
       {entry.kind !== "image" && entry.content && (
         <div className="mt-5 space-y-3">
           {entry.dataProfiles && entry.dataProfiles.length > 0 && (
@@ -670,7 +651,6 @@ function ReportCard({
         </div>
       )}
 
-      {/* Agentic step / tool usage counter */}
       {!entry.generating && stepCount > 0 && (
         <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 font-medium text-orange-600 dark:text-orange-300">
@@ -681,7 +661,6 @@ function ReportCard({
         </div>
       )}
 
-      {/* Generated artifact cards (.pdf / .docx) */}
       {entry.kind !== "image" && entry.content && (
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
           <ArtifactCard
@@ -699,7 +678,6 @@ function ReportCard({
         </div>
       )}
 
-      {/* Follow-up action chips */}
       {!entry.generating && hasResult && (
         <FollowUpChips
           onPdf={handleExportPdf}
@@ -709,7 +687,6 @@ function ReportCard({
         />
       )}
 
-      {/* Intermediate steps panel */}
       {showSteps && (
         <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-xs leading-relaxed text-slate-500 dark:border-zinc-800 dark:bg-zinc-800/40 dark:text-zinc-400">
           Mode:{" "}
@@ -720,27 +697,26 @@ function ReportCard({
         </div>
       )}
 
-      {/* Suggested next steps */}
       {!entry.generating && hasResult && (
         <div className="mt-4 flex flex-wrap gap-2">
           <button
             type="button"
             onClick={() => setShowSteps((s) => !s)}
-            className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:border-orange-400 hover:text-orange-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+            className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:border-orange-400 hover:text-orange-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
           >
             <ListChecks className="h-3.5 w-3.5" /> View intermediate steps
           </button>
           <button
             type="button"
             onClick={() => onSynthetic(entry)}
-            className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:border-orange-400 hover:text-orange-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+            className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:border-orange-400 hover:text-orange-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
           >
             <Database className="h-3.5 w-3.5" /> Generate synthetic data
           </button>
           <button
             type="button"
             onClick={() => onRefine(entry)}
-            className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:border-orange-400 hover:text-orange-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+            className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:border-orange-400 hover:text-orange-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
           >
             <Wand2 className="h-3.5 w-3.5" /> Refine analysis
           </button>
@@ -761,7 +737,7 @@ function MenuItem({ icon: Icon, label, hint, onClick }: MenuItemProps) {
   return (
     <button
       onClick={onClick}
-      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
+      className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-orange-500/50"
     >
       <Icon className="h-4 w-4" />
       <span className="flex-1 text-left">{label}</span>
@@ -786,7 +762,6 @@ export default function Dashboard() {
   const router = useRouter();
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Close the profile dropdown when clicking outside of it.
   useEffect(() => {
     if (!menuOpen) return;
     const onDocClick = (e: MouseEvent) => {
@@ -805,11 +780,6 @@ export default function Dashboard() {
 
   const closeMenu = () => setMenuOpen(false);
 
-  // Reliable, non-blocking logout:
-  //  - clear all local session / UI state immediately,
-  //  - flip to the landing view synchronously (never wait on async auth),
-  //  - navigate to home right away,
-  //  - then fire-and-forget the Firebase token clear (don't block the redirect).
   const handleLogout = () => {
     setReports([]);
     setAttachments([]);
@@ -825,33 +795,26 @@ export default function Dashboard() {
     signOut();
   };
 
-  // Active agent / category persona (drives backend system prompt + UI).
   const [activeAgent, setActiveAgent] = useState("General Writer");
-
-  // AI report generation state (chat-style history)
   const [reports, setReports] = useState<ReportEntry[]>([]);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Universal file attachments
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const fileMapRef = useRef<Map<string, File>>(new Map());
   const [dragging, setDragging] = useState(false);
   const dragCounter = useRef(0);
 
-  // Document library + chat history
   const [documents, setDocuments] = useState<DocItem[]>([]);
   const [sessions, setSessions] = useState<ChatSession[]>([]);
   const docFileMap = useRef<Map<string, File>>(new Map());
 
-  // Projects (workspaces) + active project binding
   const [projects, setProjects] = useState<Project[]>([]);
   const [currentProjectId, setCurrentProjectId] = useState<string | null>(null);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Keep the latest report (at the bottom, just above the foot search bar) in view.
   const prevLen = useRef(0);
   useEffect(() => {
     const el = scrollRef.current;
@@ -861,9 +824,6 @@ export default function Dashboard() {
     prevLen.current = reports.length;
   }, [reports]);
 
-  // No artificial cap on the number of dropped files — users may drop and
-  // process large batches simultaneously. Validation is limited to file type
-  // only; there is intentionally no "too many files" warning.
   const addFiles = (fileList: FileList | File[]) => {
     const incoming = Array.from(fileList);
     if (incoming.length === 0) return;
@@ -893,7 +853,6 @@ export default function Dashboard() {
     setAttachments((prev) => prev.filter((a) => a.id !== id));
   };
 
-  // Global drag-and-drop listeners for the workspace.
   useEffect(() => {
     const hasFiles = (e: DragEvent) =>
       !!e.dataTransfer && Array.from(e.dataTransfer.types).includes("Files");
@@ -936,9 +895,6 @@ export default function Dashboard() {
     };
   }, []);
 
-  // Compute a real statistical profile of the uploaded tabular files in the
-  // browser so the live preview can show a metrics panel (mirrors the
-  // server-side profiling that grounds the LLM's numbers).
   const computeClientProfiles = async (
     files: File[]
   ): Promise<{ name: string; profile: DataProfile }[]> => {
@@ -990,7 +946,7 @@ export default function Dashboard() {
           }
         }
       } catch {
-        /* best-effort — ignore unreadable files */
+        /* best-effort */
       }
     }
     return out;
@@ -1018,8 +974,6 @@ export default function Dashboard() {
       },
     ]);
 
-    // Record documents for the "My Documents" library (persisted to Firestore
-    // when signed in, so they survive refresh and appear in the Documents view).
     files.forEach((f) => {
       const docId = crypto.randomUUID();
       docFileMap.current.set(docId, f);
@@ -1080,8 +1034,6 @@ export default function Dashboard() {
         : input;
     const startedAt = Date.now();
 
-    // Image-generation intent: active "AI Image" agent, or a prompt that asks
-    // for an image. Bypasses the text LLM entirely.
     if (
       attachments.length === 0 &&
       (activeAgent === "AI Image" || isImageRequest(input))
@@ -1125,7 +1077,6 @@ export default function Dashboard() {
       return;
     }
 
-    // File analysis
     if (attachments.length) {
       const filesToSend = attachments
         .map((a) => fileMapRef.current.get(a.id))
@@ -1136,7 +1087,6 @@ export default function Dashboard() {
       return;
     }
 
-    // Plain text report
     setReports((prev) => [
       ...prev,
       {
@@ -1194,15 +1144,12 @@ export default function Dashboard() {
     );
   };
 
-  // Sidebar navigation: "New Project" resets the workspace (archiving any
-  // active chat into history first); the other items just switch the view.
-  // ---- Firestore-backed data loading (scoped to the signed-in user) ----
   const loadProjects = async () => {
     if (!user) return;
     try {
       setProjects(await listProjects(user.uid));
     } catch {
-      /* Firestore may be disabled / rules unset — keep local state */
+      /* fallback */
     }
   };
 
@@ -1219,7 +1166,7 @@ export default function Dashboard() {
         }))
       );
     } catch {
-      /* ignore */
+      /* fallback */
     }
   };
 
@@ -1245,11 +1192,10 @@ export default function Dashboard() {
         }))
       );
     } catch {
-      /* ignore */
+      /* fallback */
     }
   };
 
-  // Persist the current workspace as a Chat History record.
   const persistSession = async (s: ChatSession) => {
     if (!user) return;
     await setChatSession(user.uid, s.id, {
@@ -1271,9 +1217,6 @@ export default function Dashboard() {
 
   const handleNav = async (id: string) => {
     if (id === "new") {
-      // Reset the workspace + switch to the empty "new" view IMMEDIATELY,
-      // independent of any Firestore writes (so a DB error can never block
-      // the UI refresh).
       setReports([]);
       setAttachments([]);
       setPrompt("");
@@ -1281,7 +1224,6 @@ export default function Dashboard() {
       setCurrentProjectId(null);
       setActiveView("new");
 
-      // Best-effort persistence — failures are swallowed so the UX never breaks.
       if (user) {
         try {
           if (reports.length > 0) {
@@ -1307,7 +1249,7 @@ export default function Dashboard() {
           setProjects((prev) => [p, ...prev]);
           setCurrentProjectId(p.id);
         } catch {
-          /* Firestore may be disabled / rules unset — keep local state */
+          /* fallback */
         }
       }
       return;
@@ -1318,16 +1260,12 @@ export default function Dashboard() {
     if (id === "chat") await loadSessions();
   };
 
-  // Initial load of projects / documents / history when the user signs in.
   useEffect(() => {
     if (!user) return;
     Promise.all([loadProjects(), loadDocuments(), loadSessions()]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  // Pre-signup file retention: if a file was saved to localStorage on the
-  // landing page before login, rehydrate it into the workspace attachments and
-  // clear the temporary storage. Runs once per dashboard mount/session.
   const injectedPending = useRef(false);
   useEffect(() => {
     if (!user || injectedPending.current) return;
@@ -1401,7 +1339,6 @@ export default function Dashboard() {
     downloadReportPdf(entry.title, entry.content, `${safe || "report"}.pdf`, entry.dataProfiles);
   };
 
-  // Follow-up action chips trigger the next autonomous agent workflow.
   const handleFollowUp = (entry: ReportEntry, action: "summary" | "slides") => {
     const ref = `"${entry.title}"`;
     if (action === "summary") {
@@ -1421,7 +1358,6 @@ export default function Dashboard() {
 
   return (
     <div className="relative h-screen overflow-hidden bg-slate-50 font-sans text-slate-900 dark:bg-zinc-950 dark:text-white">
-      {/* Ambient glows — synced to global theme */}
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="animate-float-slow absolute -left-40 -top-40 h-96 w-96 rounded-full bg-blue-300/30 blur-[130px] dark:bg-blue-600/20" />
         <div className="animate-float absolute -right-40 top-1/3 h-[30rem] w-[30rem] rounded-full bg-purple-300/30 blur-[150px] dark:bg-purple-600/20" />
@@ -1430,13 +1366,11 @@ export default function Dashboard() {
       </div>
 
       <div className="flex h-screen">
-        {/* Sidebar */}
         <aside
           className={`flex shrink-0 flex-col border-r border-slate-200 bg-white/70 backdrop-blur-2xl transition-all duration-300 dark:border-zinc-800 dark:bg-zinc-900/60 ${
             collapsed ? "w-20" : "w-64"
           }`}
         >
-          {/* Brand + collapse */}
           <div className="flex items-center justify-between gap-2 px-4 py-4">
             {!collapsed && (
               <div className="flex items-center gap-2">
@@ -1449,13 +1383,12 @@ export default function Dashboard() {
             <button
               aria-label="Toggle sidebar"
               onClick={() => setCollapsed((v) => !v)}
-              className="grid h-9 w-9 place-items-center rounded-xl text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-white"
+              className="grid h-9 w-9 place-items-center rounded-xl text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-orange-500/50"
             >
               {collapsed ? <ChevronRight className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
             </button>
           </div>
 
-          {/* Nav with fluid highlight */}
           <nav className="relative flex flex-1 flex-col gap-1 px-3 py-2">
             {NAV.map((item) => {
               const Icon = item.icon;
@@ -1464,7 +1397,7 @@ export default function Dashboard() {
                 <button
                   key={item.id}
                   onClick={() => handleNav(item.id)}
-                  className="relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white"
+                  className="relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-orange-500/50"
                 >
                   {active && (
                     <motion.span
@@ -1480,11 +1413,10 @@ export default function Dashboard() {
             })}
           </nav>
 
-          {/* Profile dropdown footer */}
           <div className="relative border-t border-slate-200 p-3 dark:border-zinc-800">
             <button
               onClick={() => setMenuOpen((v) => !v)}
-              className={`flex w-full items-center gap-3 rounded-xl p-2 transition-colors hover:bg-slate-100 dark:hover:bg-zinc-800 ${
+              className={`flex w-full items-center gap-3 rounded-xl p-2 transition-colors hover:bg-slate-100 dark:hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-orange-500/50 ${
                 collapsed ? "justify-center" : ""
               }`}
             >
@@ -1517,7 +1449,6 @@ export default function Dashboard() {
                 ref={menuRef}
                 className="absolute bottom-20 left-3 right-3 overflow-hidden rounded-xl border border-slate-200 bg-white/95 p-1.5 shadow-xl shadow-slate-200/60 backdrop-blur-2xl dark:border-zinc-800 dark:bg-zinc-900/80 dark:shadow-black/60"
               >
-                {/* Plan header + Upgrade */}
                 <div className="mb-1.5 rounded-lg bg-gradient-to-br from-orange-500/10 to-amber-500/5 p-3">
                   <div className="flex items-center justify-between gap-2">
                     <div>
@@ -1545,7 +1476,6 @@ export default function Dashboard() {
                   </button>
                 </div>
 
-                {/* Menu items */}
                 <div className="flex flex-col">
                   <MenuItem
                     icon={Coins}
@@ -1596,7 +1526,7 @@ export default function Dashboard() {
 
                 <button
                   onClick={handleLogout}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-red-500 transition-colors hover:bg-red-500/10 dark:text-red-400"
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-red-500 transition-colors hover:bg-red-500/10 dark:text-red-400 focus:outline-none focus:ring-2 focus:ring-red-500/50"
                 >
                   <LogOut className="h-4 w-4" />
                   Log out
@@ -1606,117 +1536,111 @@ export default function Dashboard() {
           </div>
         </aside>
 
-        {/* Main content — flipped order: Title -> Cards -> Search Bar (foot) */}
         <main className="flex flex-1 flex-col overflow-hidden">
-          {/* Scrollable area: title, cards, and generated reports */}
           <div ref={scrollRef} className="flex flex-1 flex-col overflow-y-auto">
             {activeView === "new" && (
               <div className="mx-auto w-full max-w-5xl px-6 pb-8">
-              {/* Active project badge — confirms the refreshed blank workspace */}
-              {(() => {
-                const activeProject = projects.find(
-                  (p) => p.id === currentProjectId
-                );
-                if (!activeProject) return null;
-                return (
-                  <div className="flex justify-center pb-4">
-                    <span className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-xs font-medium text-orange-600 dark:text-orange-400">
-                      <Sparkles className="h-3.5 w-3.5" />
-                      {activeProject.name}
-                    </span>
-                  </div>
-                );
-              })()}
-              {/* Title & subtitle at the very top */}
-              <section className="flex flex-col items-center justify-center py-10 text-center">
-                <motion.h1
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl"
-                >
-                  Hi, I am <span className="text-orange-500">AI Reporter</span>
-                </motion.h1>
-                <p className="mt-2 text-center text-slate-500 dark:text-zinc-400">
-                  Your intelligent workspace for turning data and documents into
-                  polished reports.
-                </p>
-              </section>
-
-              {error && (
-                <div className="mb-4 flex items-start gap-3 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-600 backdrop-blur-2xl dark:text-red-300">
-                  <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
-                  <p className="flex-1 leading-relaxed">{error}</p>
-                  <button
-                    type="button"
-                    aria-label="Dismiss"
-                    onClick={() => setError(null)}
-                    className="grid h-6 w-6 shrink-0 place-items-center rounded-md text-red-500 transition-colors hover:bg-red-500/10 dark:text-red-300"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                </div>
-              )}
-
-              {/* Category cards — directly below the title */}
-              <section className="pb-24">
-                {hasReports ? (
-                  <div className="flex flex-col gap-6">
-                    {reports.map((r) => (
-                      <ReportCard
-            key={r.id}
-            entry={r}
-            onDownload={handleDownload}
-            onRefine={handleRefine}
-            onSynthetic={handleSynthetic}
-            onImageLoad={handleImageLoaded}
-            onFollowUp={handleFollowUp}
-          />
-                    ))}
-                  </div>
-                ) : (
-                  <>
-                    {/* Category tabs */}
-                    <div className="relative flex flex-wrap gap-1 border-b border-slate-200 dark:border-zinc-800">
-                      {TABS.map((tab) => {
-                        const Icon = tab.icon;
-                        const active = activeTab === tab.id;
-                        return (
-                          <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
-                            className={`relative flex items-center gap-2 rounded-t-lg px-4 py-3 text-sm font-medium transition-colors ${
-                              active
-                                ? "text-orange-500"
-                                : "text-slate-500 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-zinc-200"
-                            }`}
-                          >
-                            <Icon className="h-4 w-4" />
-                            {tab.id}
-                            {active && (
-                              <motion.span
-                                layoutId="tab-active"
-                                className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-400"
-                                transition={{ type: "spring", stiffness: 400, damping: 32 }}
-                              />
-                            )}
-                          </button>
-                        );
-                      })}
+                {(() => {
+                  const activeProject = projects.find(
+                    (p) => p.id === currentProjectId
+                  );
+                  if (!activeProject) return null;
+                  return (
+                    <div className="flex justify-center pb-4">
+                      <span className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-xs font-medium text-orange-600 dark:text-orange-400">
+                        <Sparkles className="h-3.5 w-3.5" />
+                        {activeProject.name}
+                      </span>
                     </div>
+                  );
+                })()}
 
-                    {/* Template cards grid */}
-                    <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                      {cards.map((card) => (
-                        <TemplateCard
-                          key={card.title}
-                          card={card}
-                          onSelect={handleTemplateSelect}
+                <section className="flex flex-col items-center justify-center py-10 text-center">
+                  <motion.h1
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl"
+                  >
+                    Hi, I am <span className="text-orange-500">AI Reporter</span>
+                  </motion.h1>
+                  <p className="mt-2 text-center text-slate-500 dark:text-zinc-400">
+                    Your intelligent workspace for turning data and documents into
+                    polished reports.
+                  </p>
+                </section>
+
+                {error && (
+                  <div className="mb-4 flex items-start gap-3 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-600 backdrop-blur-2xl dark:text-red-300">
+                    <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
+                    <p className="flex-1 leading-relaxed">{error}</p>
+                    <button
+                      type="button"
+                      aria-label="Dismiss error"
+                      onClick={() => setError(null)}
+                      className="grid h-6 w-6 shrink-0 place-items-center rounded-md text-red-500 transition-colors hover:bg-red-500/10 dark:text-red-300"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                )}
+
+                <section className="pb-24">
+                  {hasReports ? (
+                    <div className="flex flex-col gap-6">
+                      {reports.map((r) => (
+                        <ReportCard
+                          key={r.id}
+                          entry={r}
+                          onDownload={handleDownload}
+                          onRefine={handleRefine}
+                          onSynthetic={handleSynthetic}
+                          onImageLoad={handleImageLoaded}
+                          onFollowUp={handleFollowUp}
                         />
                       ))}
                     </div>
-                  </>
-                )}
-              </section>
+                  ) : (
+                    <>
+                      <div className="relative flex flex-wrap gap-1 border-b border-slate-200 dark:border-zinc-800">
+                        {TABS.map((tab) => {
+                          const Icon = tab.icon;
+                          const active = activeTab === tab.id;
+                          return (
+                            <button
+                              key={tab.id}
+                              onClick={() => setActiveTab(tab.id)}
+                              className={`relative flex items-center gap-2 rounded-t-lg px-4 py-3 text-sm font-medium transition-colors ${
+                                active
+                                  ? "text-orange-500"
+                                  : "text-slate-500 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+                              }`}
+                            >
+                              <Icon className="h-4 w-4" />
+                              {tab.id}
+                              {active && (
+                                <motion.span
+                                  layoutId="tab-active"
+                                  className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-400"
+                                  transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                                />
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        {cards.map((card) => (
+                          <TemplateCard
+                            key={card.title}
+                            card={card}
+                            onSelect={handleTemplateSelect}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </section>
               </div>
             )}
 
@@ -1741,108 +1665,103 @@ export default function Dashboard() {
               </div>
             )}
 
-          {/* Search bar + agent chips — footer pinned to the bottom of the
-              workspace (no longer sticky, so it never leaves a black gap) */}
-          {activeView === "new" && (
-          <div className="mt-auto border-t border-slate-200 bg-white/80 backdrop-blur-2xl dark:border-zinc-800 dark:bg-zinc-900/70">
-            <div className="mx-auto w-full max-w-5xl px-4 py-4 sm:px-6">
-              {/* Attachment preview badges */}
-              {attachments.length > 0 && (
-                <div className="mb-2 flex flex-wrap gap-2">
-                  {attachments.map((a) => (
-                    <span
-                      key={a.id}
-                      className="flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-xs font-medium text-orange-600 dark:text-orange-300"
-                    >
-                      <Paperclip className="h-3.5 w-3.5" />
-                      <span className="max-w-[160px] truncate">{a.name}</span>
-                      <button
-                        type="button"
-                        onClick={() => removeAttachment(a.id)}
-                        aria-label={`Remove ${a.name}`}
-                        className="grid h-4 w-4 place-items-center rounded-full transition-colors hover:bg-orange-500/20"
-                      >
-                        <X className="h-3 w-3" />
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              <div className="group flex w-full items-center gap-3 rounded-2xl border border-orange-500/50 bg-white/80 p-2 pl-5 shadow-[0_0_40px_-12px_rgba(249,115,22,0.45)] backdrop-blur-2xl transition-shadow duration-300 focus-within:shadow-[0_0_60px_-10px_rgba(249,115,22,0.6)] dark:bg-zinc-900/60">
-                <button
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  disabled={generating}
-                  aria-label="Upload files to analyze"
-                  className="grid h-11 w-11 shrink-0 place-items-center rounded-xl text-orange-500 transition-colors hover:bg-orange-500/10 disabled:opacity-50"
-                >
-                  <FileUp className="h-5 w-5" />
-                </button>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept=".pdf,.doc,.docx,.xls,.xlsx,.txt,.csv,.png,.jpg,.jpeg,.webp,.gif,.bmp"
-                  multiple
-                  className="hidden"
-                  onChange={handleFileChange}
-                />
-                <input
-                  value={prompt}
-                  id="prompt-input"
-                  onChange={(e) => setPrompt(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") handleSend();
-                  }}
-                  placeholder="Ask me anything, assign a task, or drop files to analyze…"
-                  className="w-full bg-transparent py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 dark:text-white dark:placeholder:text-zinc-500"
-                />
-                <button
-                  type="button"
-                  onClick={() => handleSend()}
-                  disabled={generating}
-                  aria-label="Send"
-                  className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md shadow-orange-500/30 transition-transform duration-300 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-70 group-hover:translate-x-0.5"
-                >
-                  {generating ? (
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                  ) : (
-                    <Send className="h-5 w-5" />
+            {activeView === "new" && (
+              <div className="mt-auto border-t border-slate-200 bg-white/80 backdrop-blur-2xl dark:border-zinc-800 dark:bg-zinc-900/70">
+                <div className="mx-auto w-full max-w-5xl px-4 py-4 sm:px-6">
+                  {attachments.length > 0 && (
+                    <div className="mb-2 flex flex-wrap gap-2">
+                      {attachments.map((a) => (
+                        <span
+                          key={a.id}
+                          className="flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-xs font-medium text-orange-600 dark:text-orange-300"
+                        >
+                          <Paperclip className="h-3.5 w-3.5" />
+                          <span className="max-w-[160px] truncate">{a.name}</span>
+                          <button
+                            type="button"
+                            onClick={() => removeAttachment(a.id)}
+                            aria-label={`Remove ${a.name}`}
+                            className="grid h-4 w-4 place-items-center rounded-full transition-colors hover:bg-orange-500/20"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </span>
+                      ))}
+                    </div>
                   )}
-                </button>
-              </div>
 
-              {/* Glowing agent pills — click to switch active persona */}
-              <div className="mt-3 flex flex-wrap justify-center gap-2">
-                {TOOLS.map((tool) => {
-                  const isActive = activeAgent === tool;
-                  return (
-                    <motion.button
-                      key={tool}
+                  <div className="group flex w-full items-center gap-3 rounded-2xl border border-orange-500/50 bg-white/80 p-2 pl-5 shadow-[0_0_40px_-12px_rgba(249,115,22,0.45)] backdrop-blur-2xl transition-shadow duration-300 focus-within:shadow-[0_0_60px_-10px_rgba(249,115,22,0.6)] dark:bg-zinc-900/60">
+                    <button
                       type="button"
-                      onClick={() => setActiveAgent(tool)}
-                      whileHover={{ scale: 1.06 }}
-                      whileTap={{ scale: 0.96 }}
-                      aria-pressed={isActive}
-                      className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-                        isActive
-                          ? "border-orange-500/50 bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md shadow-orange-500/30"
-                          : "border-orange-500/20 bg-orange-500/10 text-orange-600 hover:border-orange-500/40 hover:text-orange-700 dark:text-orange-300 dark:hover:text-orange-200"
-                      }`}
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={generating}
+                      aria-label="Upload files to analyze"
+                      className="grid h-11 w-11 shrink-0 place-items-center rounded-xl text-orange-500 transition-colors hover:bg-orange-500/10 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
                     >
-                      {tool}
-                    </motion.button>
-                  );
-                })}
+                      <FileUp className="h-5 w-5" />
+                    </button>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept=".pdf,.doc,.docx,.xls,.xlsx,.txt,.csv,.png,.jpg,.jpeg,.webp,.gif,.bmp"
+                      multiple
+                      className="hidden"
+                      onChange={handleFileChange}
+                    />
+                    <input
+                      value={prompt}
+                      id="prompt-input"
+                      onChange={(e) => setPrompt(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") handleSend();
+                      }}
+                      placeholder="Ask me anything, assign a task, or drop files to analyze…"
+                      className="w-full bg-transparent py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 dark:text-white dark:placeholder:text-zinc-500"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleSend()}
+                      disabled={generating}
+                      aria-label="Send"
+                      className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md shadow-orange-500/30 transition-transform duration-300 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-70 group-hover:translate-x-0.5 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+                    >
+                      {generating ? (
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                      ) : (
+                        <Send className="h-5 w-5" />
+                      )}
+                    </button>
+                  </div>
+
+                  <div className="mt-3 flex flex-wrap justify-center gap-2">
+                    {TOOLS.map((tool) => {
+                      const isActive = activeAgent === tool;
+                      return (
+                        <motion.button
+                          key={tool}
+                          type="button"
+                          onClick={() => setActiveAgent(tool)}
+                          whileHover={{ scale: 1.06 }}
+                          whileTap={{ scale: 0.96 }}
+                          aria-pressed={isActive}
+                          className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/50 ${
+                            isActive
+                              ? "border-orange-500/50 bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md shadow-orange-500/30"
+                              : "border-orange-500/20 bg-orange-500/10 text-orange-600 hover:border-orange-500/40 hover:text-orange-700 dark:text-orange-300 dark:hover:text-orange-200"
+                          }`}
+                        >
+                          {tool}
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          )}
+            )}
           </div>
         </main>
       </div>
 
-      {/* Drag-and-drop overlay */}
       {dragging && (
         <div className="pointer-events-none fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm">
           <div className="flex flex-col items-center gap-4 rounded-3xl border-2 border-dashed border-orange-400/70 bg-white/95 px-16 py-12 text-center shadow-2xl dark:bg-zinc-900/90">
@@ -1858,16 +1777,10 @@ export default function Dashboard() {
           </div>
         </div>
       )}
-
-      {/* Subtle watermark */}
-      <span className="pointer-events-none fixed bottom-2 right-3 z-30 select-none text-[10px] font-medium tracking-wide text-slate-400/50 dark:text-zinc-500/30">
-        Activate Windows
-      </span>
     </div>
   );
 }
 
-/* Collapsible "Thinking" dropdown for a report's reasoning block. */
 function ThinkingBlock({ text }: { text: string }) {
   const [open, setOpen] = useState(false);
   return (
@@ -1875,7 +1788,7 @@ function ThinkingBlock({ text }: { text: string }) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center gap-2 px-4 py-3 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 dark:text-zinc-300 dark:hover:text-white"
+        className="flex w-full items-center gap-2 px-4 py-3 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 dark:text-zinc-300 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-orange-500/50"
       >
         <Brain className="h-4 w-4 text-orange-500" />
         <span>Thinking</span>
@@ -1894,19 +1807,16 @@ function ThinkingBlock({ text }: { text: string }) {
   );
 }
 
-/* Timeline of execution steps, each with a collapsible code artifact card. */
 function ArtifactSteps({ steps }: { steps: ExecStep[] }) {
   return (
     <ol className="relative ml-2 border-l border-slate-200 dark:border-zinc-700">
       {steps.map((s) => (
         <li key={s.index} className="mb-5 ml-5">
-          {/* Timeline node */}
           <span className="absolute -left-[9px] flex h-4 w-4 items-center justify-center rounded-full bg-orange-500 ring-4 ring-white dark:ring-zinc-900">
             <span className="h-1.5 w-1.5 rounded-full bg-white" />
           </span>
 
           <div className="overflow-hidden rounded-xl border border-slate-200 bg-white/70 dark:border-zinc-800 dark:bg-zinc-900/50">
-            {/* Step header */}
             <div className="flex items-center gap-2 px-4 py-3">
               {s.tool === "shell" ? (
                 <Terminal className="h-4 w-4 shrink-0 text-orange-500" />
@@ -1921,7 +1831,6 @@ function ArtifactSteps({ steps }: { steps: ExecStep[] }) {
               )}
             </div>
 
-            {/* Collapsible code artifact */}
             {s.code && (
               <details className="group border-t border-slate-200 dark:border-zinc-800" open>
                 <summary className="flex cursor-pointer list-none items-center gap-2 px-4 py-2.5 text-xs font-medium text-slate-500 transition-colors hover:text-slate-700 dark:text-zinc-400 dark:hover:text-zinc-200">
@@ -1944,7 +1853,6 @@ function ArtifactSteps({ steps }: { steps: ExecStep[] }) {
   );
 }
 
-/* Downloadable output artifact card (.pdf / .docx) with status indicator. */
 function ArtifactCard({
   kind,
   title,
@@ -1983,7 +1891,7 @@ function ArtifactCard({
       <button
         type="button"
         onClick={onGenerate}
-        className="shrink-0 rounded-lg border border-orange-500/30 bg-orange-500/10 px-3 py-1.5 text-xs font-medium text-orange-600 transition-colors hover:bg-orange-500/20 dark:text-orange-300"
+        className="shrink-0 rounded-lg border border-orange-500/30 bg-orange-500/10 px-3 py-1.5 text-xs font-medium text-orange-600 transition-colors hover:bg-orange-500/20 dark:text-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
       >
         {status ? "Download" : "Generate"}
       </button>
@@ -1991,7 +1899,6 @@ function ArtifactCard({
   );
 }
 
-/* Sleek, clickable follow-up action pills. */
 function FollowUpChips({
   onPdf,
   onDocx,
@@ -2004,22 +1911,20 @@ function FollowUpChips({
   onSlides: () => void;
 }) {
   const chip =
-    "flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-600 transition-all hover:-translate-y-0.5 hover:border-orange-400 hover:text-orange-600 hover:shadow-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:text-orange-300";
+    "flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-600 transition-all hover:-translate-y-0.5 hover:border-orange-400 hover:text-orange-600 hover:shadow-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:text-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500/50";
   return (
     <div className="mt-4 flex flex-wrap gap-2">
       <button type="button" onClick={onPdf} className={chip}>
-        <FileDown className="h-3.5 w-3.5" /> Generate a PDF version of the report
+        <FileDown className="h-3.5 w-3.5" /> Generate PDF version
       </button>
       <button type="button" onClick={onDocx} className={chip}>
         <FileText className="h-3.5 w-3.5" /> Export to DOCX
       </button>
       <button type="button" onClick={onSummary} className={chip}>
-        <Sparkles className="h-3.5 w-3.5" /> Create a one-page executive summary
-        infographic
+        <Sparkles className="h-3.5 w-3.5" /> Executive summary infographic
       </button>
       <button type="button" onClick={onSlides} className={chip}>
-        <Presentation className="h-3.5 w-3.5" /> Draft 5-slide presentation for
-        stakeholders
+        <Presentation className="h-3.5 w-3.5" /> Draft 5-slide presentation
       </button>
     </div>
   );
@@ -2072,7 +1977,7 @@ function DocumentsView({
               <button
                 type="button"
                 onClick={() => onReanalyze(d)}
-                className="flex items-center gap-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1.5 text-sm font-medium text-orange-600 transition-colors hover:bg-orange-500/20 dark:text-orange-300"
+                className="flex items-center gap-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1.5 text-sm font-medium text-orange-600 transition-colors hover:bg-orange-500/20 dark:text-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
               >
                 <RotateCw className="h-3.5 w-3.5" />
                 Re-analyze
@@ -2080,7 +1985,7 @@ function DocumentsView({
               <button
                 type="button"
                 onClick={() => onDownload(d)}
-                className="flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                className="flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
               >
                 <Download className="h-3.5 w-3.5" />
                 Download
@@ -2089,7 +1994,7 @@ function DocumentsView({
                 type="button"
                 onClick={() => onDelete(d.id)}
                 aria-label={`Delete ${d.name}`}
-                className="grid h-9 w-9 place-items-center rounded-full text-slate-400 transition-colors hover:bg-red-500/10 hover:text-red-500"
+                className="grid h-9 w-9 place-items-center rounded-full text-slate-400 transition-colors hover:bg-red-500/10 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/50"
               >
                 <Trash2 className="h-4 w-4" />
               </button>
@@ -2150,7 +2055,7 @@ function HistoryView({
               <button
                 type="button"
                 onClick={() => onRestore(s)}
-                className="rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1.5 text-sm font-medium text-orange-600 transition-colors hover:bg-orange-500/20 dark:text-orange-300"
+                className="rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1.5 text-sm font-medium text-orange-600 transition-colors hover:bg-orange-500/20 dark:text-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
               >
                 Open
               </button>
@@ -2158,7 +2063,7 @@ function HistoryView({
                 type="button"
                 onClick={() => onDelete(s.id)}
                 aria-label="Delete session"
-                className="grid h-9 w-9 place-items-center rounded-full text-slate-400 transition-colors hover:bg-red-500/10 hover:text-red-500"
+                className="grid h-9 w-9 place-items-center rounded-full text-slate-400 transition-colors hover:bg-red-500/10 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/50"
               >
                 <Trash2 className="h-4 w-4" />
               </button>

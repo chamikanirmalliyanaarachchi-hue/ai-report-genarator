@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plus } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 
-// FAQ content — covers formats, data limits, security and export options
 const FAQS = [
   {
     q: "What file formats can I upload?",
@@ -17,7 +16,7 @@ const FAQS = [
   },
   {
     q: "Is my data secure and private?",
-    a: "Yes. Files are encrypted in transit and at rest. We do not train models on your data and automatically purge uploaded files after processing unless you choose to save them.",
+    a: "We take a privacy-conscious approach: files you upload are used only to generate your report and can be removed from your workspace at any time.",
   },
   {
     q: "Can I export reports to PDF and Word?",
@@ -34,7 +33,6 @@ const FAQS = [
 ];
 
 export default function FAQ() {
-  // Track which item (by index) is currently expanded; null = all closed
   const [open, setOpen] = useState<number | null>(0);
 
   return (
@@ -53,26 +51,25 @@ export default function FAQ() {
           {FAQS.map((item, i) => {
             const isOpen = open === i;
             return (
-                <div
-                  key={item.q}
-                  className="card overflow-hidden transition-colors hover:border-zinc-700 dark:hover:border-zinc-700"
+              <div
+                key={item.q}
+                className="card overflow-hidden transition-colors hover:border-zinc-700 dark:hover:border-zinc-700"
+              >
+                <button
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  aria-expanded={isOpen}
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left focus:outline-none focus:ring-2 focus:ring-orange-500/50"
                 >
-                  <button
-                    onClick={() => setOpen(isOpen ? null : i)}
-                    aria-expanded={isOpen}
-                    className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
-                  >
-                    <span className="text-sm font-medium text-strong sm:text-base">
-                      {item.q}
-                    </span>
-                    <Plus
-                      className={`h-5 w-5 shrink-0 text-orange-500 transition-transform duration-300 ${
-                        isOpen ? "rotate-45" : ""
-                      }`}
-                    />
-                  </button>
+                  <span className="text-sm font-medium text-strong sm:text-base">
+                    {item.q}
+                  </span>
+                  <Plus
+                    className={`h-5 w-5 shrink-0 text-orange-500 transition-transform duration-300 ${
+                      isOpen ? "rotate-45" : ""
+                    }`}
+                  />
+                </button>
 
-                {/* Smooth height/opacity transition using AnimatePresence */}
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div

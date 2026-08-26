@@ -13,7 +13,6 @@ import {
 import SectionHeading from "./SectionHeading";
 import TiltCard from "./TiltCard";
 
-// Each step definition keeps the data and UI together for easy maintenance
 const STEPS = [
   {
     step: "01",
@@ -106,13 +105,12 @@ export default function HowItWorks() {
             >
               <TiltCard className="h-full" intensity={9}>
                 <div className="card group relative h-full p-6 hover:border-orange-500/30 hover:shadow-lg hover:shadow-orange-500/10">
-                  {/* Step number badge */}
                   <span className="absolute right-5 top-5 text-4xl font-black text-zinc-200 transition-colors group-hover:text-zinc-300 dark:text-white/5 dark:group-hover:text-white/10">
-                {step}
+                    {step}
                   </span>
-              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 shadow-md shadow-orange-500/30">
-                <Icon className="h-6 w-6 text-white" />
-              </div>
+                  <div className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 shadow-md shadow-orange-500/30">
+                    <Icon className="h-6 w-6 text-white" />
+                  </div>
                   <h3 className="mt-5 text-lg font-semibold text-strong">
                     {title}
                   </h3>

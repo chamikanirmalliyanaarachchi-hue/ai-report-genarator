@@ -16,9 +16,9 @@ export default function FileUploadBox({
   onChange?: (file: File | null) => void;
 }) {
   const [isDragging, setIsDragging] = useState(false);
-  // Controlled when `onChange` is provided, otherwise fall back to internal state.
   const [internal, setInternal] = useState<File | null>(null);
   const file = value !== undefined ? value : internal;
+
   const setFile = useCallback(
     (f: File | null) => {
       if (onChange) onChange(f);
@@ -61,13 +61,14 @@ export default function FileUploadBox({
       onDrop={onDrop}
       role="button"
       tabIndex={0}
+      aria-label="Upload file dropzone"
       onKeyDown={(e) => {
         if ((e.key === "Enter" || e.key === " ") && !file) {
           e.preventDefault();
           inputRef.current?.click();
         }
       }}
-      className={`group relative mt-5 flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-4 py-6 text-center transition-all duration-300 ${
+      className={`group relative mt-5 flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-4 py-6 text-center transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500/50 ${
         isDragging
           ? "border-orange-500 bg-orange-500/10"
           : "border-zinc-300 bg-zinc-100/60 hover:border-orange-400 hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800/40 dark:hover:border-orange-500/70 dark:hover:bg-zinc-800/70"
