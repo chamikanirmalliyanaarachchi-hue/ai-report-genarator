@@ -81,13 +81,13 @@ export default function PricingPage() {
             className="flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-orange-600 dark:text-zinc-200"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to AI Reporter
+            Back to AI Report Generator
           </Link>
           <div className="flex items-center gap-2">
             <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 text-white">
               <Sparkles className="h-4 w-4" />
             </span>
-            <span className="text-base font-bold tracking-tight">AI Reporter</span>
+            <span className="text-base font-bold tracking-tight">AI Report Generator</span>
           </div>
           <Link
             href="/"
@@ -204,7 +204,7 @@ export default function PricingPage() {
         </div>
 
         <p className="mt-10 text-sm text-slate-400 dark:text-zinc-500">
-          All plans include access to the AI Reporter workspace. Need custom team options?{" "}
+          All plans include access to the AI Report Generator workspace. Need custom team options?{" "}
           <Link href="/help" className="text-orange-600 hover:underline dark:text-orange-400">
             Contact support
           </Link>

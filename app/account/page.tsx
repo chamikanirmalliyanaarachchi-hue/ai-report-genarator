@@ -70,14 +70,14 @@ export default function AccountPage() {
             className="flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-orange-600 dark:text-zinc-200"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to AI Reporter
+            Back to AI Report Generator
           </Link>
           <div className="flex items-center gap-2">
             <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 text-white">
               <Sparkles className="h-4 w-4" />
             </span>
             <span className="text-base font-bold tracking-tight">
-              AI Reporter
+              AI Report Generator
             </span>
           </div>
           <Link

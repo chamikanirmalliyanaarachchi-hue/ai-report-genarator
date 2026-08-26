@@ -8,27 +8,27 @@ import SectionHeading from "./SectionHeading";
 const FAQS = [
   {
     q: "What file formats can I upload?",
-    a: "You can upload PDF documents and CSV spreadsheets. The generator extracts structured numeric tables and text, analyzing them directly to produce customized reports.",
+    a: "You can upload PDFs, Word documents (.doc/.docx), Excel spreadsheets (.xls/.xlsx), CSV/TSV/text files, and images such as PNG, JPG, WEBP, and GIF. The generator reads the content and produces charts, tables, and a written analysis from it.",
   },
   {
-    q: "How large can my uploaded files be?",
-    a: "Free usage supports files up to 10MB. Pro and Team tiers allow larger uploads up to 250MB per file with support for multi-document batch analysis.",
+    q: "How large can my files be?",
+    a: "Files are processed directly to build your report, and you can attach several documents in a single analysis session. Paid plans add more monthly credits and features like the Memory Center and priority processing.",
   },
   {
     q: "Is my data kept private and secure?",
-    a: "Yes. Files you upload are processed to generate your active analysis session and report. We prioritize user privacy and do not sell or expose your document contents.",
+    a: "When you're signed in, your uploaded documents, chat history, and saved memories are stored in your own account and isolated by your user ID. We don't sell or share your document contents with other users.",
   },
   {
     q: "Can I export my generated reports?",
-    a: "Yes. Every generated report can be exported as a formatted PDF or editable Word (.docx) document, along with embedded chart representations.",
+    a: "Yes. Every generated report can be exported as a formatted PDF or an editable Word (.docx) document, with charts, tables, and diagrams preserved.",
   },
   {
-    q: "Do you support market and trend analysis?",
-    a: "Yes. In addition to standard business overview reports, AI analyst models can perform trend analysis, statistical summaries, and comparative benchmarks on your uploaded data.",
+    q: "Does it handle trend and statistical analysis?",
+    a: "Yes. The AI performs trend analysis, statistical summaries, comparative benchmarks, and risk assessments on your data, and can adapt the analysis to business, financial, academic, or creative contexts using different agents.",
   },
   {
-    q: "Is there API access available?",
-    a: "API integration is available for custom workflows on higher tier plans. Contact support or check your account settings for integration options.",
+    q: "Which specialist agents can I use?",
+    a: "You can pick the right analyst for the job: a general Data Analyst for reports, AI Spreadsheets for financial models, AI Design for UI/UX recommendations, AI Image for visual prompts, AI Video for scripts, and Slides Agent for slide decks. The default analyst handles most data and document reports.",
   },
 ];
 
@@ -51,10 +51,14 @@ export default function FAQ() {
           {FAQS.map((item, i) => {
             const isOpen = open === i;
             return (
-              <div
-                key={item.q}
-                className="card overflow-hidden transition-colors hover:border-zinc-300 dark:hover:border-zinc-700"
-              >
+                <div
+                  key={item.q}
+                  className={`card overflow-hidden transition-colors ${
+                    isOpen
+                      ? "border-orange-500/30"
+                      : "hover:border-orange-500/30 dark:hover:border-orange-500/30"
+                  }`}
+                >
                 <button
                   type="button"
                   onClick={() => setOpen(isOpen ? null : i)}

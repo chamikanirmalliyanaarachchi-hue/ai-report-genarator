@@ -18,7 +18,7 @@ type Faq = { q: string; a: string };
 const FAQS: Faq[] = [
   {
     q: "How do I create a new report?",
-    a: "Click 'New Project' in the sidebar, then describe what you want analyzed or upload a file. AI Reporter generates a structured, professional report you can export to PDF or DOCX.",
+    a: "Click 'New Project' in the sidebar, then describe what you want analyzed or upload a file. AI Report Generator produces a structured, professional report you can export to PDF or DOCX.",
   },
   {
     q: "Which file types can I analyze?",
@@ -34,7 +34,7 @@ const FAQS: Faq[] = [
   },
   {
     q: "What are the agent personas?",
-    a: "AI Reporter includes multiple specialist agents (e.g. Economy, Market Research, Academic, Design) each tuned for a different style of analysis. Pick one before generating.",
+    a: "AI Report Generator includes several specialist agents — a general Data Analyst (the default), AI Spreadsheets for financial models, AI Design for UI/UX recommendations, AI Image for visual prompts, AI Video for scripts, and Slides Agent for decks. Pick one before generating to shape the style of analysis.",
   },
   {
     q: "How do I upgrade my plan?",
@@ -82,14 +82,14 @@ export default function HelpCenterPage() {
             className="flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-orange-600 dark:text-zinc-200"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to AI Reporter
+            Back to AI Report Generator
           </Link>
           <div className="flex items-center gap-2">
             <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 text-white">
               <Sparkles className="h-4 w-4" />
             </span>
             <span className="text-base font-bold tracking-tight">
-              AI Reporter
+              AI Report Generator
             </span>
           </div>
           <Link

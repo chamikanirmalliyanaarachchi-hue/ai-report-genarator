@@ -20,7 +20,7 @@ function isCasualGreeting(input: string): boolean {
 }
 
 const CASUAL_REPLY =
-  "Hi! I'm AI Reporter, your advanced data analyst and report assistant. Tell me what you'd like to analyze or build — a market brief, a quarterly review, a project plan — and I'll generate a polished, structured report for you.";
+  "Hi! I'm AI Report Generator, your advanced data analyst and report assistant. Tell me what you'd like to analyze or build — a market brief, a quarterly review, a project plan — and I'll generate a polished, structured report for you.";
 
 export async function POST(req: NextRequest) {
   let prompt = "";

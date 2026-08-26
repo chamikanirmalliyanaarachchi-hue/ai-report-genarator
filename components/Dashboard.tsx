@@ -80,7 +80,7 @@ import {
 } from "@/lib/pendingUpload";
 import type { Project } from "@/lib/models";
 
-const BRAND = "AI Reporter";
+const BRAND = "AI Report Generator";
 
 type NavItem = { id: string; label: string; icon: typeof Plus };
 
@@ -1376,7 +1376,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-2">
                 <Sparkles className="logo-sparkle h-6 w-6 text-orange-500 dark:text-orange-400" />
                 <span className="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">
-                  AI<span className="text-orange-500 dark:text-orange-400">Reporter</span>
+                  AI<span className="text-orange-500 dark:text-orange-400"> Report</span> Generator
                 </span>
               </div>
             )}
@@ -1561,7 +1561,7 @@ export default function Dashboard() {
                     animate={{ opacity: 1, y: 0 }}
                     className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl"
                   >
-                    Hi, I am <span className="text-orange-500">AI Reporter</span>
+                    Hi, I am <span className="text-orange-500">AI Report Generator</span>
                   </motion.h1>
                   <p className="mt-2 text-center text-slate-500 dark:text-zinc-400">
                     Your intelligent workspace for turning data and documents into

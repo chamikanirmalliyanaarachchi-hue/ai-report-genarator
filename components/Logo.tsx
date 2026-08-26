@@ -11,7 +11,7 @@ export default function Logo({ className = "" }: { className?: string }) {
     <a href="#top" className={`flex items-center gap-2 group ${className}`}>
       <Sparkles className="logo-sparkle h-6 w-6 text-orange-500 dark:text-orange-400" />
       <span className="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">
-        AI<span className="text-orange-500 dark:text-orange-400">Reporter</span>
+        AI<span className="text-orange-500 dark:text-orange-400"> Report</span> Generator
       </span>
     </a>
   );

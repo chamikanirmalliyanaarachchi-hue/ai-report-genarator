@@ -14,34 +14,34 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "AI Reporter — Intelligent Data & Report Generator",
+  title: "AI Report Generator — Intelligent Data & Report Generator",
   description:
-    "AI Reporter turns PDFs, CSVs, and spreadsheets into professional, data-rich reports with charts, analysis, and actionable insights.",
+    "AI Report Generator turns PDFs, CSVs, and spreadsheets into professional, data-rich reports with charts, analysis, and actionable insights.",
   keywords: [
-    "AI Reporter",
+    "AI Report Generator",
     "data report generator",
     "PDF to report",
     "CSV analysis",
     "business insights",
     "AI charts",
   ],
-  authors: [{ name: "AI Reporter" }],
-  applicationName: "AI Reporter",
+  authors: [{ name: "AI Report Generator" }],
+  applicationName: "AI Report Generator",
   icons: {
     icon: "/favicon.svg?v=3",
     shortcut: "/favicon.svg?v=3",
     apple: "/favicon.svg?v=3",
   },
   openGraph: {
-    title: "AI Reporter — Intelligent Data & Report Generator",
+    title: "AI Report Generator — Intelligent Data & Report Generator",
     description:
       "Turn PDF or CSV files into professional business reports with AI.",
     type: "website",
-    siteName: "AI Reporter",
+    siteName: "AI Report Generator",
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Reporter — Intelligent Data & Report Generator",
+    title: "AI Report Generator — Intelligent Data & Report Generator",
     description:
       "Turn PDF or CSV files into professional business reports with AI.",
   },
