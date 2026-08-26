@@ -4,12 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  Sparkles,
-  Check,
-  ArrowLeft,
-  CreditCard,
-} from "lucide-react";
+import { Sparkles, Check, ArrowLeft, CreditCard } from "lucide-react";
 
 type Plan = {
   name: string;
@@ -33,7 +28,7 @@ const PLANS: Plan[] = [
       "Basic report generation",
       "File & document analysis",
       "PDF / DOCX export",
-      "Community support",
+      "Standard support",
     ],
   },
   {
@@ -45,10 +40,10 @@ const PLANS: Plan[] = [
     cta: "Upgrade to Pro",
     features: [
       "2,500 monthly credits",
-      "All 6 analyst agents",
+      "All analyst agents",
       "Memory Center & saved contexts",
-      "Priority Gemini 3.6 Flash",
-      "Unlimited projects & history",
+      "Priority processing speed",
+      "Unlimited project history",
       "Priority support",
     ],
   },
@@ -63,7 +58,6 @@ const PLANS: Plan[] = [
       "Everything in Pro",
       "Shared workspaces",
       "Admin & billing controls",
-      "SSO (coming soon)",
       "Dedicated support",
     ],
   },
@@ -74,7 +68,6 @@ export default function PricingPage() {
   const [annual, setAnnual] = useState(true);
 
   const handleSelect = (_plan: string) => {
-    // In production this would open Stripe Checkout / billing portal.
     router.push("/?upgrade=1");
   };
 
@@ -126,6 +119,7 @@ export default function PricingPage() {
         {/* Billing toggle */}
         <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white p-1 text-sm dark:border-zinc-800 dark:bg-zinc-900">
           <button
+            type="button"
             onClick={() => setAnnual(false)}
             className={`rounded-full px-4 py-1.5 font-medium transition-colors ${
               !annual
@@ -136,6 +130,7 @@ export default function PricingPage() {
             Monthly
           </button>
           <button
+            type="button"
             onClick={() => setAnnual(true)}
             className={`rounded-full px-4 py-1.5 font-medium transition-colors ${
               annual
@@ -181,6 +176,7 @@ export default function PricingPage() {
                 </div>
 
                 <button
+                  type="button"
                   onClick={() => handleSelect(plan.name)}
                   disabled={plan.name === "Free"}
                   className={`mt-5 w-full rounded-xl px-4 py-2.5 text-sm font-semibold transition-transform ${
@@ -208,11 +204,10 @@ export default function PricingPage() {
         </div>
 
         <p className="mt-10 text-sm text-slate-400 dark:text-zinc-500">
-          All plans include the AI Reporter report workspace. Need a custom
-          enterprise plan?{" "}
-          <a className="text-orange-600 hover:underline dark:text-orange-400">
-            Contact sales
-          </a>
+          All plans include access to the AI Reporter workspace. Need custom team options?{" "}
+          <Link href="/help" className="text-orange-600 hover:underline dark:text-orange-400">
+            Contact support
+          </Link>
           .
         </p>
       </section>

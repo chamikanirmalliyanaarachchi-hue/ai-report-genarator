@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight } from "lucide-react";
 import Logo from "./Logo";
@@ -8,16 +9,14 @@ import ThemeToggle from "./ThemeToggle";
 import { useApp } from "./AppProvider";
 import { useModal } from "./ModalProvider";
 
-// Navigation links — single source of truth used for both desktop & mobile
 const NAV_LINKS = [
-  { label: "How it Works", href: "#how-it-works" },
-  { label: "Use Cases", href: "#use-cases" },
-  { label: "Tools", href: "#tools" },
-  { label: "FAQ", href: "#faq" },
+  { label: "How it Works", href: "/#how-it-works" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Help", href: "/help" },
 ];
 
 export default function Navbar() {
-  // Tracks whether the user has scrolled to add a blurred glass background
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { openDashboard } = useApp();
@@ -47,13 +46,13 @@ export default function Navbar() {
         {/* Desktop nav links */}
         <ul className="hidden items-center gap-8 md:flex">
           {NAV_LINKS.map((link) => (
-            <li key={link.href}>
-              <a
+            <li key={link.label}>
+              <Link
                 href={link.href}
                 className="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
               >
                 {link.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -67,10 +66,8 @@ export default function Navbar() {
             Sign in
           </button>
 
-          {/* Theme switcher */}
           <ThemeToggle />
 
-          {/* Primary CTA with a glowing hover effect */}
           <button
             type="button"
             onClick={openDashboard}
@@ -85,6 +82,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2 md:hidden">
           <ThemeToggle />
           <button
+            type="button"
             aria-label="Toggle navigation menu"
             onClick={() => setMobileOpen((v) => !v)}
             className="grid h-10 w-10 place-items-center rounded-xl border border-zinc-200 bg-white/70 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-white"
@@ -101,21 +99,33 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.2 }}
             className="card mx-4 mt-2 p-4 md:hidden"
           >
             <ul className="flex flex-col gap-1">
               {NAV_LINKS.map((link) => (
-                <li key={link.href}>
-                  <a
+                <li key={link.label}>
+                  <Link
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
                     className="block rounded-lg px-3 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
+              <li>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileOpen(false);
+                    open("login");
+                  }}
+                  className="w-full text-left rounded-lg px-3 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"
+                >
+                  Sign in
+                </button>
+              </li>
             </ul>
             <button
               type="button"
@@ -123,7 +133,7 @@ export default function Navbar() {
                 setMobileOpen(false);
                 openDashboard();
               }}
-              className="mt-2 flex items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-orange-500/30"
+              className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-orange-500/30"
             >
               Get Started
               <ArrowRight className="h-4 w-4" />

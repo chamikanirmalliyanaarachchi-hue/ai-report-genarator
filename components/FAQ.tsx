@@ -8,27 +8,27 @@ import SectionHeading from "./SectionHeading";
 const FAQS = [
   {
     q: "What file formats can I upload?",
-    a: "You can upload PDF documents and CSV spreadsheets. We parse both structured tables and unstructured text, then automatically structure the data for analysis.",
+    a: "You can upload PDF documents and CSV spreadsheets. The generator extracts structured numeric tables and text, analyzing them directly to produce customized reports.",
   },
   {
-    q: "How large can my data files be?",
-    a: "Free plans support files up to 10MB and 50,000 rows. Pro and Enterprise plans raise the limit to 250MB and millions of rows with batch processing.",
+    q: "How large can my uploaded files be?",
+    a: "Free usage supports files up to 10MB. Pro and Team tiers allow larger uploads up to 250MB per file with support for multi-document batch analysis.",
   },
   {
-    q: "Is my data secure and private?",
-    a: "We take a privacy-conscious approach: files you upload are used only to generate your report and can be removed from your workspace at any time.",
+    q: "Is my data kept private and secure?",
+    a: "Yes. Files you upload are processed to generate your active analysis session and report. We prioritize user privacy and do not sell or expose your document contents.",
   },
   {
-    q: "Can I export reports to PDF and Word?",
-    a: "Absolutely. Every generated report can be exported as a polished PDF or an editable Word (.docx) document, plus PNG charts for slides.",
+    q: "Can I export my generated reports?",
+    a: "Yes. Every generated report can be exported as a formatted PDF or editable Word (.docx) document, along with embedded chart representations.",
   },
   {
-    q: "Do you support economy and market analysis?",
-    a: "Yes — beyond standard business reports, the AI can perform economy analysis, trend forecasting and benchmark comparisons using your uploaded data.",
+    q: "Do you support market and trend analysis?",
+    a: "Yes. In addition to standard business overview reports, AI analyst models can perform trend analysis, statistical summaries, and comparative benchmarks on your uploaded data.",
   },
   {
-    q: "Is there an API available?",
-    a: "Enterprise customers get access to a REST API and webhooks so reports can be generated programmatically and embedded into existing workflows.",
+    q: "Is there API access available?",
+    a: "API integration is available for custom workflows on higher tier plans. Contact support or check your account settings for integration options.",
   },
 ];
 
@@ -38,7 +38,7 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      className="scroll-mt-24 px-4 py-28 sm:px-6 lg:px-8 lg:py-32"
+      className="scroll-mt-24 px-4 py-24 sm:px-6 lg:px-8 lg:py-28"
     >
       <div className="mx-auto max-w-3xl">
         <SectionHeading
@@ -53,9 +53,10 @@ export default function FAQ() {
             return (
               <div
                 key={item.q}
-                className="card overflow-hidden transition-colors hover:border-zinc-700 dark:hover:border-zinc-700"
+                className="card overflow-hidden transition-colors hover:border-zinc-300 dark:hover:border-zinc-700"
               >
                 <button
+                  type="button"
                   onClick={() => setOpen(isOpen ? null : i)}
                   aria-expanded={isOpen}
                   className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left focus:outline-none focus:ring-2 focus:ring-orange-500/50"
@@ -76,7 +77,7 @@ export default function FAQ() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      transition={{ duration: 0.25, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >
                       <p className="px-5 pb-5 text-sm leading-relaxed text-muted">
