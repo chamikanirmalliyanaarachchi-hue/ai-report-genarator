@@ -26,9 +26,9 @@ import FileUploadBox from "./FileUploadBox";
 import { savePendingUpload } from "@/lib/pendingUpload";
 
 const STATS = [
-  { icon: Zap, label: "5s avg. generation" },
+  { icon: Zap, label: "Fast report generation" },
   { icon: ShieldCheck, label: "Designed with privacy in mind" },
-  { icon: TrendingUp, label: "+38% faster decisions" },
+  { icon: TrendingUp, label: "Faster, smarter decisions" },
 ];
 
 const STEPS = [
@@ -255,7 +255,7 @@ export default function Hero() {
         </motion.div>
 
         {/* Workflow steps */}
-        <div id="how-it-works" className="mx-auto mt-12 max-w-3xl scroll-mt-28 px-2">
+        <div className="mx-auto mt-12 max-w-3xl px-2">
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
             {STEPS.map((s, idx) => {
               const Icon = s.icon;

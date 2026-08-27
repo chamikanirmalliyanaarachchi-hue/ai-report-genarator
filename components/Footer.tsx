@@ -18,16 +18,15 @@ const COLUMNS = [
       { label: "Help Center", href: "/help" },
       { label: "Documentation", href: "/help" },
       { label: "API Reference", badge: "Soon" },
-      { label: "Status", badge: "Operational" },
     ],
   },
-  {
-    title: "Legal",
-    links: [
-      { label: "Privacy Policy", href: "/help" },
-      { label: "Terms of Service", href: "/help" },
-    ],
-  },
+      {
+        title: "Legal",
+        links: [
+          { label: "Privacy Policy", href: "/privacy" },
+          { label: "Terms of Service", href: "/terms" },
+        ],
+      },
 ];
 
 const SOCIALS = [
@@ -102,7 +101,7 @@ export default function Footer() {
           </p>
           <div className="flex gap-6 text-xs text-muted">
             <Link
-              href="/help"
+              href="/privacy"
               className="transition-colors hover:text-zinc-900 dark:hover:text-white"
             >
               Privacy &amp; Terms

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Loader2 } from "lucide-react";
+import Link from "next/link";
 import Logo from "./Logo";
 import { useAuth } from "./AuthProvider";
 import { useApp } from "./AppProvider";
@@ -24,8 +25,9 @@ export default function Modal({
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingLabel, setLoadingLabel] = useState("");
+  const [notice, setNotice] = useState<string | null>(null);
 
-  const { signInWithGoogle, signUp, signIn } = useAuth();
+  const { signInWithGoogle, signUp, signIn, resetPassword } = useAuth();
   const { openDashboard } = useApp();
 
   const isLogin = view === "login";
@@ -35,6 +37,7 @@ export default function Modal({
     if (isOpen) {
       setView(mode);
       setError(null);
+      setNotice(null);
     }
   }, [isOpen, mode]);
 
@@ -45,6 +48,7 @@ export default function Modal({
       setPassword("");
       setLoading(false);
       setLoadingLabel("");
+      setNotice(null);
     }
   }, [isOpen]);
 
@@ -85,6 +89,7 @@ export default function Modal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setNotice(null);
 
     if (!email.trim() || !password) {
       setError("Please enter both your email and password.");
@@ -104,6 +109,27 @@ export default function Modal({
       finishAuth();
     } catch (e) {
       setError(e instanceof Error ? e.message : "Authentication failed.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleForgot = async () => {
+    setError(null);
+    setNotice(null);
+    if (!email.trim()) {
+      setError("Enter your email above and we'll send a reset link.");
+      return;
+    }
+    setLoading(true);
+    setLoadingLabel("Sending reset link…");
+    try {
+      await resetPassword(email);
+      setNotice(
+        `Password reset email sent to ${email.trim()}. Check your inbox to continue.`
+      );
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Could not send reset email.");
     } finally {
       setLoading(false);
     }
@@ -167,7 +193,7 @@ export default function Modal({
                   transition={{ duration: 0.2 }}
                 >
                   <h2 className="mt-5 text-xl font-bold tracking-tight">
-                    {isLogin ? "Sign in to AI Report" : "Get started with AI Report"}
+                    {isLogin ? "Sign in to AI Report Generator" : "Get started with AI Report Generator"}
                   </h2>
                   <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                     {isLogin
@@ -214,6 +240,13 @@ export default function Modal({
                     <span className="h-px flex-1 bg-slate-200 dark:bg-zinc-700" />
                   </div>
 
+                  {/* Success notice banner */}
+                  {notice && (
+                    <div className="mb-4 rounded-xl border border-emerald-300 bg-emerald-50 px-3 py-2 text-sm text-emerald-700 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-300">
+                      {notice}
+                    </div>
+                  )}
+
                   {/* Error / notice banner */}
                   {error && (
                     <div
@@ -252,7 +285,9 @@ export default function Modal({
                       <div className="flex justify-end">
                         <button
                           type="button"
-                          className="text-xs font-medium text-slate-500 transition-colors hover:text-orange-500 dark:text-slate-400"
+                          onClick={handleForgot}
+                          disabled={loading}
+                          className="text-xs font-medium text-slate-500 transition-colors hover:text-orange-500 disabled:cursor-not-allowed disabled:opacity-60 dark:text-slate-400"
                         >
                           Forget password?
                         </button>
@@ -269,10 +304,24 @@ export default function Modal({
                         />
                         <span>
                           I agree to the{" "}
-                          <span className="font-medium text-orange-500">
+                          <Link
+                            href="/terms"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-medium text-orange-500 underline-offset-2 hover:underline"
+                          >
                             Terms and Conditions
-                          </span>{" "}
-                          and Privacy Policy.
+                          </Link>{" "}
+                          and{" "}
+                          <Link
+                            href="/privacy"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-medium text-orange-500 underline-offset-2 hover:underline"
+                          >
+                            Privacy Policy
+                          </Link>
+                          .
                         </span>
                       </label>
                     )}

@@ -68,9 +68,12 @@ export default function HelpCenterPage() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!form.name.trim() || !form.email.trim() || !form.message.trim()) return;
-    // Front-end only: in production this would POST to a support endpoint.
+    const subject = encodeURIComponent(`AI Report Generator support — ${form.name}`);
+    const body = encodeURIComponent(
+      `Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`
+    );
+    window.location.href = `mailto:support@aireportgenerator.app?subject=${subject}&body=${body}`;
     setSent(true);
-    setForm({ name: "", email: "", message: "" });
   };
 
   return (
@@ -172,10 +175,11 @@ export default function HelpCenterPage() {
           <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-zinc-400">
             Contact support
           </h2>
-          {sent ? (
+               {sent ? (
             <div className="mt-4 flex items-center gap-2 rounded-xl bg-emerald-500/10 px-4 py-3 text-sm text-emerald-600 dark:text-emerald-400">
               <CheckCircle2 className="h-5 w-5" />
-              Thanks for your message! Our team will get back to you shortly.
+              Thanks! Your email app should now be open with your message.
+              If it didn't open, email us at support@aireportgenerator.app.
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3">

@@ -177,37 +177,51 @@ export default function MemoryCenterPage() {
         )}
 
         {/* Add memory */}
-        <form
-          onSubmit={handleAdd}
-          className="mt-8 rounded-2xl border border-slate-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900"
-        >
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-zinc-400">
-            Add a memory
-          </h2>
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Title (e.g. Company tone guide)"
-            className="mt-3 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-orange-500 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
-          />
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="What should the AI remember? Add instructions, preferences, or context."
-            rows={3}
-            className="mt-3 w-full resize-none rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-orange-500 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
-          />
-          <div className="mt-3 flex justify-end">
-            <button
-              type="submit"
-              disabled={!title.trim() || !content.trim()}
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 px-4 py-2 text-sm font-semibold text-white transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
+        {!user ? (
+          <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-8 text-center dark:border-zinc-800 dark:bg-zinc-900">
+            <p className="text-slate-500 dark:text-zinc-400">
+              Please sign in to use the Memory Center.
+            </p>
+            <Link
+              href="/"
+              className="mt-4 inline-block rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 px-4 py-2 text-sm font-semibold text-white"
             >
-              <Plus className="h-4 w-4" />
-              Save memory
-            </button>
+              Go to sign in
+            </Link>
           </div>
-        </form>
+        ) : (
+          <form
+            onSubmit={handleAdd}
+            className="mt-8 rounded-2xl border border-slate-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900"
+          >
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-zinc-400">
+              Add a memory
+            </h2>
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Title (e.g. Company tone guide)"
+              className="mt-3 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-orange-500 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
+            />
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="What should the AI remember? Add instructions, preferences, or context."
+              rows={3}
+              className="mt-3 w-full resize-none rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-orange-500 dark:border-zinc-700 dark:bg-zinc-950 dark:text-white"
+            />
+            <div className="mt-3 flex justify-end">
+              <button
+                type="submit"
+                disabled={!title.trim() || !content.trim()}
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 px-4 py-2 text-sm font-semibold text-white transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <Plus className="h-4 w-4" />
+                Save memory
+              </button>
+            </div>
+          </form>
+        )}
 
         {/* List */}
         <div className="mt-8">

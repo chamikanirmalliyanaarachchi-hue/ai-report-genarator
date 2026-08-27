@@ -38,7 +38,7 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      className="scroll-mt-24 px-4 py-24 sm:px-6 lg:px-8 lg:py-28"
+      className="scroll-mt-24 px-4 py-28 sm:px-6 lg:px-8 lg:py-32"
     >
       <div className="mx-auto max-w-3xl">
         <SectionHeading

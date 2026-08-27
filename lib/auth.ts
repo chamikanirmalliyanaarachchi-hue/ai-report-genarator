@@ -4,15 +4,17 @@
 //   - signInWithGoogle()        → signInWithPopup(googleProvider)
 //   - signUpWithEmail()         → createUserWithEmailAndPassword
 //   - signInWithEmail()         → signInWithEmailAndPassword
+//   - resetPassword()           → sendPasswordResetEmail
 //   - signOut()                 → firebase signOut
 //   - subscribeToAuth(cb)       → onAuthStateChanged (persistent session)
 
-import {
+ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut as firebaseSignOut,
   sendEmailVerification,
+  sendPasswordResetEmail,
   onAuthStateChanged as firebaseOnAuthStateChanged,
   type User,
 } from "firebase/auth";
@@ -134,6 +136,14 @@ export async function signInWithEmail(
 
 export async function signOut(): Promise<void> {
   await firebaseSignOut(auth);
+}
+
+export async function resetPassword(email: string): Promise<void> {
+  try {
+    await sendPasswordResetEmail(auth, email.trim());
+  } catch (err) {
+    throw mapAuthError(err);
+  }
 }
 
 /**

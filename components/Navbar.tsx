@@ -8,6 +8,7 @@ import Logo from "./Logo";
 import ThemeToggle from "./ThemeToggle";
 import { useApp } from "./AppProvider";
 import { useModal } from "./ModalProvider";
+import { useAuth } from "./AuthProvider";
 
 const NAV_LINKS = [
   { label: "How it Works", href: "/#how-it-works" },
@@ -21,6 +22,12 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { openDashboard } = useApp();
   const { open } = useModal();
+  const { user } = useAuth();
+
+  const handleGetStarted = () => {
+    if (user) openDashboard();
+    else open("signup");
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -70,7 +77,7 @@ export default function Navbar() {
 
           <button
             type="button"
-            onClick={openDashboard}
+            onClick={handleGetStarted}
             className="group relative flex items-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-orange-500/20 transition-all duration-300 hover:scale-[1.03] hover:shadow-lg hover:shadow-orange-500/40 dark:shadow-orange-500/30"
           >
             Get Started
@@ -127,14 +134,14 @@ export default function Navbar() {
                 </button>
               </li>
             </ul>
-            <button
-              type="button"
-              onClick={() => {
-                setMobileOpen(false);
-                openDashboard();
-              }}
-              className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-orange-500/30"
-            >
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileOpen(false);
+                  handleGetStarted();
+                }}
+                className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-orange-500/30"
+              >
               Get Started
               <ArrowRight className="h-4 w-4" />
             </button>
