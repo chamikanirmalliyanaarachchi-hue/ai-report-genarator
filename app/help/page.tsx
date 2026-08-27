@@ -179,7 +179,7 @@ export default function HelpCenterPage() {
             <div className="mt-4 flex items-center gap-2 rounded-xl bg-emerald-500/10 px-4 py-3 text-sm text-emerald-600 dark:text-emerald-400">
               <CheckCircle2 className="h-5 w-5" />
               Thanks! Your email app should now be open with your message.
-              If it didn't open, email us at support@aireportgenerator.app.
+              If it didn&apos;t open, email us at support@aireportgenerator.app.
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3">
